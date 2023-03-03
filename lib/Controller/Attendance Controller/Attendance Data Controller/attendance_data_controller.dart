@@ -69,6 +69,7 @@ class AttendanceDataController extends GetxController{
             isSuccess.value = true;
             isLoading.value = false;
           }else{
+            customSnackBar("Error","No data found in these dates");
             //customSnackBar("Success","No Data Found");
             isLoading.value = false;
           }

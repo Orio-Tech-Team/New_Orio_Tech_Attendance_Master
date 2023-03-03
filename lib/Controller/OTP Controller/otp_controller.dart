@@ -171,7 +171,7 @@ class OTPController extends GetxController{
           customSnackBar("Error!", "Somethings went wrong!");
         }
       }else{
-        customSnackBar("Network Error!", "No Internet Found");
+        customSnackBar("Network Error!", "No Internet Found!");
         isLoading.value = false;
       }
 

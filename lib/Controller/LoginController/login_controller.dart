@@ -21,7 +21,6 @@ class LoginController extends NetworkManager{
 
 
   void onSubmit() async {
-    await GetStorage.init();
     box.remove('user_name');
     box.remove('user_phone');
     box.remove('user_token');
@@ -31,12 +30,15 @@ class LoginController extends NetworkManager{
     box.remove('station_latitude');
     box.remove('station_longitude');
     box.remove('station_radius');
+    String? deviceId = await PlatformDeviceId.getDeviceId;
+    print('============>Device Id: $deviceId');
     final form = formKey.currentState;
     if (form!.validate()) {
       FocusManager.instance.primaryFocus?.unfocus();
       var data = {
         "user_name": idController.text.toString(),
         "application_tag": 'ORIO-ATT-APP',
+        "device_id": deviceId
       };
       if (idController.text != '') {
         isLoading.value = true;

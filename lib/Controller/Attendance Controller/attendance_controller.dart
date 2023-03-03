@@ -119,10 +119,12 @@ class AttendanceController extends GetxController{
           getEmployeeAttendance();
           // customSnackBar("Success", "Your attendance is submitted");
         }else{
-          customSnackBar("Error",'getAttendance');
+          isLoading.value = false;
+          customSnackBar("Error",'Somethimg went wrong!');
         }
       }else{
-        customSnackBar("Network Error",'Internet not found!');
+        isLoading.value = false;
+        customSnackBar("Network Error",'No Internet not found!');
       }
 
     });
@@ -131,18 +133,25 @@ class AttendanceController extends GetxController{
    getEmployeeAttendance(){
     isLoading.value = true;
     Network.getApi(userToken, EMPLOYEE_ATTENDANCE_URL).then((value) {
-      if(value['data']['id'] != null){
-        getAttendanceModel = GetAttendanceModel.fromJson(value);
-        if(getAttendanceModel!.status == 200){
-          isLoading.value = false;
-          //customSnackBar("Updated", "attendance is get");
+      if(value != null){
+        if(value['data']['id'] != null){
+          getAttendanceModel = GetAttendanceModel.fromJson(value);
+          if(getAttendanceModel!.status == 200){
+            isLoading.value = false;
+            //customSnackBar("Updated", "attendance is get");
+          }else{
+            customSnackBar("Error",'Something went wrong!');
+            isLoading.value = false;
+            //customSnackBar("Error",'getEmployeeAttendance');
+          }
         }else{
           isLoading.value = false;
-          //customSnackBar("Error",'getEmployeeAttendance');
         }
       }else{
         isLoading.value = false;
+        customSnackBar("Network Error",'No Internet found!');
       }
+
 
     });
   }
