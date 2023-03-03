@@ -69,7 +69,7 @@ class HomeController extends GetxController{
       EasyGeofencing.startGeofenceService(
           pointedLatitude: stationLatitude!,
           pointedLongitude: stationLongitude!,
-          radiusMeter: stationRadius,
+          radiusMeter: stationRadius.toString(),
           eventPeriodInSeconds: 0
       );
       var location = Location();

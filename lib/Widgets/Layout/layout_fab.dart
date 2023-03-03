@@ -22,7 +22,7 @@ class LayoutFAB extends StatelessWidget {
     EasyGeofencing.startGeofenceService(
         pointedLatitude: stationLatitude!,
         pointedLongitude: stationLongitude!,
-        radiusMeter: stationRadius,
+        radiusMeter: stationRadius.toString(),
         eventPeriodInSeconds: 0);
     if (geofenceStatusStream == null) {
       geofenceStatusStream =
