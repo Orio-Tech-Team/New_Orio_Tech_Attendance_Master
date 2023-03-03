@@ -9,32 +9,36 @@ import '../../Controller/Attendance Controller/attendance_controller.dart';
 import '../../Screens/Attendance Screen/attendance_screen.dart';
 
 class LayoutFAB extends StatelessWidget {
-   LayoutFAB({Key? key}) : super(key: key);
+  LayoutFAB({Key? key}) : super(key: key);
   String? stationLatitude;
   String? stationLongitude;
-   final box = GetStorage();
+  var stationRadius;
+  final box = GetStorage();
   start() async {
     stationLatitude = box.read('station_latitude');
     stationLongitude = box.read('station_longitude');
+    stationRadius = box.read('station_radius');
     //isLoading.value = true;
     EasyGeofencing.startGeofenceService(
         pointedLatitude: stationLatitude!,
         pointedLongitude: stationLongitude!,
-        radiusMeter: '100.0',
-        eventPeriodInSeconds: 5);
+        radiusMeter: stationRadius,
+        eventPeriodInSeconds: 0);
     if (geofenceStatusStream == null) {
-      geofenceStatusStream = EasyGeofencing.getGeofenceStream()!
-          .listen((GeofenceStatus status) {
+      geofenceStatusStream =
+          EasyGeofencing.getGeofenceStream()!.listen((GeofenceStatus status) {
         print(status.toString());
         var locationStatus = status.toString();
-        if(locationStatus == "GeofenceStatus.enter"){
+        if (locationStatus == "GeofenceStatus.enter") {
           isInRange.value = true;
-        }else{
+        } else {
           isInRange.value = false;
         }
       });
-    };
+    }
+    ;
   }
+
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import '../Network Manager/network_manager.dart';
+import '../Network/Network Manager/network_manager.dart';
 
 class MainBinding extends Bindings {
   @override

@@ -20,11 +20,13 @@ class HomeController extends GetxController{
   String? stationLongitude;
   Position? position;
   var locationStatus;
+  var stationRadius;
 
   @override
   void onInit() {
     stationLatitude = box.read('station_latitude');
     stationLongitude = box.read('station_longitude');
+    stationRadius = box.read('station_radius');
     userName = box.read('user_name');
     //start();
     setGreeting();
@@ -63,13 +65,11 @@ class HomeController extends GetxController{
     }
   }
   start() async {
-
-
     try{
       EasyGeofencing.startGeofenceService(
           pointedLatitude: stationLatitude!,
           pointedLongitude: stationLongitude!,
-          radiusMeter: '20.0',
+          radiusMeter: stationRadius,
           eventPeriodInSeconds: 0
       );
       var location = Location();

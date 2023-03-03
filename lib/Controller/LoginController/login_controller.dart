@@ -2,11 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:orio_tech_attendance_app/Models/login_model.dart';
-import 'package:orio_tech_attendance_app/Network%20Manager/network_manager.dart';
+
 import 'package:orio_tech_attendance_app/Network/network.dart';
 import 'package:orio_tech_attendance_app/Screens/OTP%20Screen/otp_screen.dart';
 import 'package:orio_tech_attendance_app/Utils/Constant/text_context.dart';
 import 'package:dio/dio.dart' as dio;
+import '../../Network/Network Manager/network_manager.dart';
 import '../../Utils/Snack Bar/custom_snack_bar.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:get_storage/get_storage.dart';

@@ -4,7 +4,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
-import '../Utils/Snack Bar/custom_snack_bar.dart';
+import '../../Utils/Dialoug Box/custom_dialoug_box.dart';
+
 
 class NetworkManager extends GetxController {
   int connectionType = 0;
