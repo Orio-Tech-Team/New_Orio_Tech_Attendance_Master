@@ -12,7 +12,7 @@ import '../../Utils/Dialoug Box/custom_dialoug_box.dart';
 import 'package:easy_geofencing/enums/geofence_status.dart';
 import 'package:easy_geofencing/easy_geofencing.dart';
 import 'package:location/location.dart';
-
+StreamSubscription<GeofenceStatus>? geofenceStatusStream;
 RxBool isInRange = false.obs;
 class AttendanceController extends GetxController{
   RxBool isRoute = false.obs;
@@ -20,7 +20,7 @@ class AttendanceController extends GetxController{
   RxBool isLoading = false.obs;
   RxBool isCallOnce = false.obs;
   DateTime date = DateTime.now();
-  StreamSubscription<GeofenceStatus>? geofenceStatusStream;
+
   Timer? timer;
   final box = GetStorage();
   String? stationLatitude;
@@ -113,13 +113,18 @@ class AttendanceController extends GetxController{
   void getAttendance(){
     isLoading.value = true;
     Network.getApi(userToken, ATTENDANCE_URL).then((value) {
-      getAttendanceModel = GetAttendanceModel.fromJson(value);
-      if(getAttendanceModel!.status == 200){
-        getEmployeeAttendance();
-       // customSnackBar("Success", "Your attendance is submitted");
+      if(value != null){
+        getAttendanceModel = GetAttendanceModel.fromJson(value);
+        if(getAttendanceModel!.status == 200){
+          getEmployeeAttendance();
+          // customSnackBar("Success", "Your attendance is submitted");
+        }else{
+          customSnackBar("Error",'getAttendance');
+        }
       }else{
-        customSnackBar("Error",'getAttendance');
+        customSnackBar("Network Error",'Internet not found!');
       }
+
     });
   }
   

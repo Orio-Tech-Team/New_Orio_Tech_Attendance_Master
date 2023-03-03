@@ -19,7 +19,7 @@ class Layout extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: const BuildAppBar(),
       body: body,
-      floatingActionButton: keyboardIsOpened ? null : const LayoutFAB(),
+      floatingActionButton: keyboardIsOpened ? null :  LayoutFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: LayoutBottomBar(
         currentTab: currentTab,
