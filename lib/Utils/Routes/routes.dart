@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:orio_tech_attendance_app/Screens/Attendance%20Screen/Attendance%20Data%20Screen/attendance_data_screen.dart';
 import 'package:orio_tech_attendance_app/Screens/Attendance%20Screen/attendance_screen.dart';
-import 'package:orio_tech_attendance_app/Screens/Bottom%20Navigation%20Screen/bottom_navigation_screen.dart';
 import 'package:orio_tech_attendance_app/Screens/Desk%20Screen/Request%20Attendance%20Screen/request_attendance_screen.dart';
 import 'package:orio_tech_attendance_app/Screens/Desk%20Screen/desk_screen.dart';
 import 'package:orio_tech_attendance_app/Screens/Home%20Screen/home_screen.dart';
@@ -54,10 +53,6 @@ final List<GetPage<dynamic>> routes = [
   GetPage(
     name: RequestAttendanceScreen.routeName,
     page: () => const RequestAttendanceScreen(),
-  ),
-  GetPage(
-    name: BottomNavigationScreen.routeName,
-    page: () => const BottomNavigationScreen(),
   ),
 ];
 

@@ -14,7 +14,6 @@ class Network {
       response = await _dio.post('$endUrl',options: Options(
           headers: {
             'Content-Type': "application/json",
-            //HttpHeaders.authorizationHeader: 'Bearer $token'
           }
         ),
         data:data,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:orio_tech_attendance_app/Utils/Data%20Selector/data_selector.dart';
 import 'package:orio_tech_attendance_app/Widgets/TextField/text_field_container.dart';
@@ -166,7 +165,8 @@ Widget myTable(){
       for(int i = 0; i <= length; i++)
         if(i < length)
   buildTableRow(
-  date: '${attendanceDataController.getAttendanceData!.data[i].attendanceDate.day}-${attendanceDataController.getAttendanceData!.data[i].attendanceDate.month}-${attendanceDataController.getAttendanceData!.data[i].attendanceDate.year}' ,
+  date: attendanceDataController.getAttendanceData!.data[i].attendanceDate,
+  //'${attendanceDataController.getAttendanceData!.data[i].attendanceDate.day}-${attendanceDataController.getAttendanceData!.data[i].attendanceDate.month}-${attendanceDataController.getAttendanceData!.data[i].attendanceDate.year}' ,
   day: attendanceDataController.getAttendanceData!.data[i].day,
   checkin: attendanceDataController.getAttendanceData!.data[i].intime,
   checkout: attendanceDataController.getAttendanceData!.data[i].outtime,
@@ -224,19 +224,19 @@ TableRow buildTableRow({date, day, checkin, checkout, hours, type}) {
           padding: const EdgeInsets.all(5),
           child: Column(
             children: [
-
-              Text(
-                day,
-                style: const TextStyle(fontSize: 12),
-              ),
               Text(
                 //date.substring(8, 10),
-                date,
+                date.substring(8, 10),
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              Text(
+                day,
+                style: const TextStyle(fontSize: 12),
+              ),
+
             ],
           ),
         ),

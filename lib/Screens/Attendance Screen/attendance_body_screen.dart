@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import '../../Controller/Attendance Controller/attendance_controller.dart';
-import '../../Controller/Attendance Controller/attendance_controller.dart';
 import '../../Shimmer/attendance_shimmer.dart';
 import '../../Utils/Colors/color_resource.dart';
 import '../../Utils/Constant/text_context.dart';
@@ -76,7 +75,6 @@ class _AttendanceBodyScreenState extends State<AttendanceBodyScreen> {
                       ? attendanceController.getAttendanceModel != null
                       ? attendanceController.getAttendanceModel!.data.outtime != null
                       ? SvgPicture.asset(
-                    //'assets/icons/attendance_click.svg',
                     'assets/icons/checkout.svg',
                     color: Colors.white,
                     width: 70,
@@ -108,9 +106,6 @@ class _AttendanceBodyScreenState extends State<AttendanceBodyScreen> {
               ),
             ),
           ),
-          /*attendanceButton(
-                attendanceController.isInRange.value,
-                attendanceController.isLoading.value,),*/
           const SizedBox(height: 20),
           inRangeText(isInRange.value),
           const Expanded(child: SizedBox(height: 20)),
@@ -126,7 +121,6 @@ class _AttendanceBodyScreenState extends State<AttendanceBodyScreen> {
 
 
 Widget dateTimeShow(){
-  //AttendanceController attendanceController = Get.put(AttendanceController());
   return Column(
     children: [
       Text(
@@ -146,7 +140,6 @@ Widget dateTimeShow(){
   );
 }
 Widget attendanceButton(bool isLoading,){
-  //AttendanceController attendanceController = Get.put(AttendanceController());
   return GestureDetector(
     onTap: () async {
       if (isInRange.value == true) {
@@ -275,53 +268,6 @@ class attendanceInfo extends StatelessWidget {
     );
   }
 }
-
-/*Widget attendanceInfo(AttendanceController attendanceController){
-  //AttendanceController attendanceController = Get.put(AttendanceController());
-  return SizedBox(
-    child:Obx(() => Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        checkItem(
-          'assets/icons/check_in.svg',
-          'Check In',
-          attendanceController.getEmployeeAttendanceModel != null
-              ?
-          attendanceController.getEmployeeAttendanceModel!.data.intime.substring(0, 5)
-              :
-          '--:--',
-        ),
-        checkItem(
-          'assets/icons/check_out.svg',
-          'Check Out',
-          attendanceController.getEmployeeAttendanceModel != null
-              ?
-          attendanceController.getEmployeeAttendanceModel!.data.outtime != null
-              ?
-          attendanceController.getEmployeeAttendanceModel!.data.outtime.substring(0, 5)
-              :
-          '--:--'
-              :
-          '--:--',
-        ),
-        checkItem(
-          'assets/icons/hours.svg',
-          'Working Hours',
-          attendanceController.getEmployeeAttendanceModel != null
-              ?
-          attendanceController.getEmployeeAttendanceModel!.data.workingHours != null
-              ?
-          attendanceController.getEmployeeAttendanceModel!.data.workingHours.substring(0, 5)
-              :
-          '--:--'
-              :
-          '--:--',
-        ),
-      ],
-    ),),
-  );
-}*/
-
 Widget checkItem(String icon,String text,String time){
   return SizedBox(
     width: 90,

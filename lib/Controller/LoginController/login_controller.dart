@@ -2,11 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:orio_tech_attendance_app/Models/login_model.dart';
-
 import 'package:orio_tech_attendance_app/Network/network.dart';
 import 'package:orio_tech_attendance_app/Screens/OTP%20Screen/otp_screen.dart';
 import 'package:orio_tech_attendance_app/Utils/Constant/text_context.dart';
-import 'package:dio/dio.dart' as dio;
 import '../../Network/Network Manager/network_manager.dart';
 import '../../Utils/Snack Bar/custom_snack_bar.dart';
 import 'package:platform_device_id/platform_device_id.dart';
@@ -19,8 +17,6 @@ class LoginController extends NetworkManager{
   LoginModel? loginModel;
   final box = GetStorage();
 
-
-
   void onSubmit() async {
     box.remove('user_name');
     box.remove('user_phone');
@@ -32,7 +28,6 @@ class LoginController extends NetworkManager{
     box.remove('station_longitude');
     box.remove('station_radius');
     String? deviceId = await PlatformDeviceId.getDeviceId;
-    print('============>Device Id: $deviceId');
     final form = formKey.currentState;
     if (form!.validate()) {
       FocusManager.instance.primaryFocus?.unfocus();
@@ -67,14 +62,10 @@ class LoginController extends NetworkManager{
             }
           }else{
             isLoading.value = false;
-          }
-
-
-
+            }
           },
         );
         form.save();
-
       }
     }
   }

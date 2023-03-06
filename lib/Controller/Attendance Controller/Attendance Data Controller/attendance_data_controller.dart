@@ -20,11 +20,7 @@ class AttendanceDataController extends GetxController{
   String? user_id;
   GetAttendanceData? getAttendanceData ;
 
-  Future getData(int monthNo, String token) async {
-    String attendanceDate = monthNo < 10
-        ? '${selectedYear.year}-0$monthNo'
-        : '${selectedYear.year}-$monthNo';
-  }
+
 
   getFromDate(){
     finalFromDate =
@@ -35,7 +31,6 @@ class AttendanceDataController extends GetxController{
         : fromDate.day < 10
         ? '${fromDate.year}-${fromDate.month}-0${fromDate.day}'
         : '${fromDate.year}-${fromDate.month}-${fromDate.day}';
-    print("from date ========> $finalFromDate");
   }
   getToDate(){
     finalToDate = toDate.month < 10
@@ -45,7 +40,6 @@ class AttendanceDataController extends GetxController{
         : toDate.day < 10
         ? '${toDate.year}-${toDate.month}-0${toDate.day}'
         : '${toDate.year}-${toDate.month}-${toDate.day}';
-    print("to date ========> $finalToDate");
   }
 
   void onSubmit() async {
@@ -53,7 +47,6 @@ class AttendanceDataController extends GetxController{
     user_id = box.read('user_id');
     getFromDate();
     getToDate();
-    //isLoading.value = false;
     var data = {
       "from_date": finalFromDate,
       "to_date": finalToDate,
@@ -65,12 +58,10 @@ class AttendanceDataController extends GetxController{
         getAttendanceData = GetAttendanceData.fromJson(value);
         if(getAttendanceData!.status == 200){
           if(getAttendanceData!.data.isNotEmpty){
-            //customSnackBar("Success","Retrived Data Successfull");
             isSuccess.value = true;
             isLoading.value = false;
           }else{
             customSnackBar("Error","No data found in these dates");
-            //customSnackBar("Success","No Data Found");
             isLoading.value = false;
           }
         }else{

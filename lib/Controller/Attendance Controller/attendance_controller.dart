@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:orio_tech_attendance_app/Models/get_attendance_model.dart';
 import 'package:orio_tech_attendance_app/Models/get_employee_attendance_model.dart';
@@ -46,70 +45,13 @@ class AttendanceController extends GetxController{
     super.onInit();
   }
 
-  @override
-  void dispose() {
-    //start();
-    super.dispose();
-  }
-
-  @override
-  void onClose() {
-    //start();
-    super.onClose();
-  }
-
   checkLocation()async{
     var location = Location();
     bool enabled = await location.serviceEnabled();
-    print('==============> LOCATION $enabled');
     if(enabled == false){
       isInRange.value = false;
     }
   }
-
-   start() async {
-     //isLoading.value = true;
-     EasyGeofencing.startGeofenceService(
-         pointedLatitude: stationLatitude!,
-         pointedLongitude: stationLongitude!,
-         radiusMeter: '100.0',
-         eventPeriodInSeconds: 5);
-     if (geofenceStatusStream == null) {
-       geofenceStatusStream = EasyGeofencing.getGeofenceStream()!
-           .listen((GeofenceStatus status) {
-         print(status.toString());
-         var locationStatus = status.toString();
-         if(locationStatus == "GeofenceStatus.enter"){
-           isInRange.value = true;
-         }else{
-           isInRange.value = false;
-         }
-       });
-     }
-     getEmployeeAttendance();
-    /*isInRange.value = false;
-    isLoading.value = true;
-    Position? position;
-    await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    ).then((Position pos) {
-      position = pos;
-    }).catchError((e) {});
-    double distanceInMeters = 0.0;
-    distanceInMeters = Geolocator.distanceBetween(
-      position?.latitude ?? 0,
-      position?.longitude ?? 0,
-      double.parse(stationLatitude!),
-      double.parse(stationLongitude!),
-    );
-    if (distanceInMeters <= 150.0) {
-      isInRange.value = true;
-    }
-    getEmployeeAttendance();
-    await Future.delayed(const Duration(seconds: 1));*/
-  }
-
-
   void getAttendance(){
     isLoading.value = true;
     Network.getApi(userToken, ATTENDANCE_URL).then((value) {
@@ -117,7 +59,6 @@ class AttendanceController extends GetxController{
         getAttendanceModel = GetAttendanceModel.fromJson(value);
         if(getAttendanceModel!.status == 200){
           getEmployeeAttendance();
-          // customSnackBar("Success", "Your attendance is submitted");
         }else{
           isLoading.value = false;
           customSnackBar("Error",'Somethimg went wrong!');
@@ -138,11 +79,9 @@ class AttendanceController extends GetxController{
           getAttendanceModel = GetAttendanceModel.fromJson(value);
           if(getAttendanceModel!.status == 200){
             isLoading.value = false;
-            //customSnackBar("Updated", "attendance is get");
           }else{
             customSnackBar("Error",'Something went wrong!');
             isLoading.value = false;
-            //customSnackBar("Error",'getEmployeeAttendance');
           }
         }else{
           isLoading.value = false;
@@ -155,12 +94,4 @@ class AttendanceController extends GetxController{
 
     });
   }
-
-
-  @override
-  void onReady() {
-   // start();
-    super.onReady();
-  }
-
 }

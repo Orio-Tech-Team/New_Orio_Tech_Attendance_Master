@@ -50,7 +50,7 @@ class Datum {
   String intime;
   String outtime;
   String type;
-  DateTime attendanceDate;
+  String attendanceDate;
   String day;
   String workingHours;
   Shift shift;
@@ -63,7 +63,7 @@ class Datum {
     intime: json["intime"],
     outtime: json["outtime"],
     type: json["type"],
-    attendanceDate: DateTime.parse(json["attendance_date"]),
+    attendanceDate: json["attendance_date"],
     day: json["day"],
     workingHours: json["working_hours"],
     shift: shiftValues.map[json["shift"]]!,
@@ -77,7 +77,7 @@ class Datum {
     "intime": intime,
     "outtime": outtime,
     "type": type,
-    "attendance_date": "${attendanceDate.year.toString().padLeft(4, '0')}-${attendanceDate.month.toString().padLeft(2, '0')}-${attendanceDate.day.toString().padLeft(2, '0')}",
+    "attendance_date": attendanceDate,
     "day": day,
     "working_hours": workingHours,
     "shift": shiftValues.reverse[shift],
