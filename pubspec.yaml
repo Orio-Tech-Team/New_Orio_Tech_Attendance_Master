@@ -33,6 +33,7 @@ dev_dependencies:
   easy_geofencing: ^0.2.0
   location: ^4.4.0
   flutter_launcher_icons: ^0.12.0
+  connectivity_widget: ^1.0.0
 
 flutter_icons:
   android: "launcher_icon"

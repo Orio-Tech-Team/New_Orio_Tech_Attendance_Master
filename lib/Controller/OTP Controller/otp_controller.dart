@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:orio_tech_attendance_app/Models/station_model.dart';
 import 'package:orio_tech_attendance_app/Network/network.dart';
 import 'package:orio_tech_attendance_app/Screens/Home%20Screen/home_screen.dart';
@@ -10,10 +11,12 @@ import 'package:orio_tech_attendance_app/Utils/Dialoug%20Box/custom_dialoug_box.
 import 'package:get_storage/get_storage.dart';
 import 'package:alt_sms_autofill/alt_sms_autofill.dart';
 import 'package:easy_geofencing/enums/geofence_status.dart';
+import 'package:location/location.dart';
+import 'package:easy_geofencing/easy_geofencing.dart';
+import '../Attendance Controller/attendance_controller.dart';
 
 class OTPController extends GetxController{
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
   final digit1Controller = TextEditingController();
   final digit2Controller = TextEditingController();
   final digit3Controller = TextEditingController();
@@ -33,10 +36,12 @@ class OTPController extends GetxController{
     digit2Controller.clear();
     digit3Controller.clear();
     digit4Controller.clear();
+
     userContact = box.read('user_phone');
     optCode = box.read('user_otp');
     userToken = box.read('user_token');
     initSmsListener();
+
     super.onInit();
   }
 
@@ -74,7 +79,6 @@ class OTPController extends GetxController{
     }
   }
 
-
   Future<void> initSmsListener() async {
     String comingSms;
     try {
@@ -90,7 +94,8 @@ class OTPController extends GetxController{
     digit4Controller.text = comingSms[3];
   }
 
-  void getStation(){
+  void getStation(
+      ){
     Network.getApi(userToken, STATION_URL).then((value){
       if(value != null){
         stationModel = StationModel.fromJson(value);
@@ -98,6 +103,7 @@ class OTPController extends GetxController{
           box.write('station_latitude', stationModel!.data[0].employeeStation[0].station.latitude);
           box.write('station_longitude', stationModel!.data[0].employeeStation[0].station.longtitude);
           box.write('station_radius', stationModel!.data[0].employeeStation[0].station.radius);
+          start();
           isLoading.value = false;
           Get.offAllNamed(HomeScreen.routeName);
         }else{
@@ -108,13 +114,67 @@ class OTPController extends GetxController{
         customSnackBar("Network Error!", "No Internet Found!");
         isLoading.value = false;
       }
-
     });
+  }
+
+  start() async {
+    String? stationLatitude;
+    String? stationLongitude;
+    var locationStatus;
+    var stationRadius;
+    stationLatitude = box.read('station_latitude');
+    stationLongitude = box.read('station_longitude');
+    stationRadius = box.read('station_radius');
+    try{
+      EasyGeofencing.startGeofenceService(
+          pointedLatitude: stationLatitude!,
+          pointedLongitude: stationLongitude!,
+          radiusMeter: stationRadius.toString(),
+          eventPeriodInSeconds: 0
+      );
+      geofenceStatusStream ??= EasyGeofencing.getGeofenceStream()!
+          .listen((GeofenceStatus status) async{
+        var location = Location();
+        bool enabled = await location.serviceEnabled();
+        if(enabled == true){
+          try{
+            locationStatus = status.toString();
+            if(locationStatus == "GeofenceStatus.enter"){
+              isInRange.value = true;
+            }else if(locationStatus == "GeofenceStatus.init"){
+              isInRange.value = false;
+            }else{
+              isInRange.value = false;
+            }
+          }catch(e){
+            isInRange.value = false;
+          }
+        }else{
+          isInRange.value = false;
+        }
+      });
+    }catch(e){
+      isInRange.value = false;
+    }
+  }
+
+  Future determinePosition() async {
+    LocationPermission permission;
+    permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return null;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      return null;
+    }
   }
 @override
   void dispose() {
   AltSmsAutofill().unregisterListener();
-    // TODO: implement dispose
     super.dispose();
   }
 }

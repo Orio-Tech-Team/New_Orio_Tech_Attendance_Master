@@ -5,25 +5,48 @@ import '../../Utils/Colors/color_resource.dart';
 import '../../Utils/Constant/text_context.dart';
 import '../Attendance Screen/attendance_screen.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:connectivity_widget/connectivity_widget.dart';
+
 HomeController homeController = Get.put(HomeController());
 class HomeBodyScreen extends StatelessWidget {
   const HomeBodyScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _greetings(),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Image.asset('assets/images/banner.png'),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: _homeCard(),
-        ),
-      ],
+    return ConnectivityWidget(
+        showOfflineBanner: false,
+        builder: (context, isOnline) {
+          return isOnline?
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _greetings(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Image.asset('assets/images/banner.png'),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: _homeCard(),
+              ),
+            ],
+          ):SizedBox(
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 50.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.wifi_off,size: 120,color: kPrimaryColor,),
+                    SizedBox(height: 5,),
+                    Text("No Internet Connection Found!"),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
     );
   }
 }
@@ -102,7 +125,7 @@ Widget _greetings(){
 Widget _homeCard(){
   return GestureDetector(
     onTap: (){
-      homeController.start();
+      //homeController.start();
       Get.toNamed(AttendanceScreen.routeName);
     },
     child: Container(

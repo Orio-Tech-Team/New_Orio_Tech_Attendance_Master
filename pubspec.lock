@@ -97,6 +97,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.4"
+  connectivity_widget:
+    dependency: "direct dev"
+    description:
+      name: connectivity_widget
+      sha256: "47b40bad1a15b1a7078cc490bec94cee3beb96dd6a80977a429eda669ebb8337"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   convert:
     dependency: transitive
     description:
@@ -288,6 +296,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
+  http:
+    dependency: transitive
+    description:
+      name: http
+      sha256: "6aa2946395183537c8b880962d935877325d6a09a2867c3970c05c0fed6ac482"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.13.5"
   http_parser:
     dependency: transitive
     description:
@@ -592,6 +608,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.4"
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      sha256: "0c7c0cedd93788d996e33041ffecda924cc54389199cde4e6a34b440f50044cb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.27.7"
   scrollable_positioned_list:
     dependency: "direct dev"
     description:
@@ -637,6 +661,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  stream_disposable:
+    dependency: transitive
+    description:
+      name: stream_disposable
+      sha256: "7c016e39141af2a0cb8dcf82be7a9338f880930cc3ddd2155afa89d9e8dd6f87"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   string_scanner:
     dependency: transitive
     description:

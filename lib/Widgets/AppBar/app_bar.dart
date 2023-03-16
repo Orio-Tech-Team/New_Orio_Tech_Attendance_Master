@@ -15,19 +15,10 @@ class BuildAppBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final box = GetStorage();
 
     void onLogout() async {
-      box.remove('user_name');
-      box.remove('user_phone');
-      box.remove('user_token');
-      box.remove('user_otp');
-      box.remove('user_verify');
-      box.remove('user_id');
-      box.remove('station_latitude');
-      box.remove('station_longitude');
-      box.remove('station_radius');
-      box.erase();
+      await GetStorage.init();
+      await GetStorage().erase();
       Get.offAllNamed(LoginScreen.routeName);
     }
 

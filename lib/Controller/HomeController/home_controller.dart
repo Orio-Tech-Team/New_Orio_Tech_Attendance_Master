@@ -25,7 +25,7 @@ class HomeController extends GetxController{
     stationRadius = box.read('station_radius');
     userName = box.read('user_name');
     setGreeting();
-    determinePosition();
+    //determinePosition();
     super.onInit();
   }
   void setGreeting() async {

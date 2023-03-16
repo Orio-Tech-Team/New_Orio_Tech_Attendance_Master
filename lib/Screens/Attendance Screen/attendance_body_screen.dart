@@ -8,6 +8,8 @@ import '../../Utils/Colors/color_resource.dart';
 import '../../Utils/Constant/text_context.dart';
 import '../../Utils/Dialoug Box/custom_dialoug_box.dart';
 import 'Attendance Data Screen/attendance_data_screen.dart';
+import 'package:connectivity_widget/connectivity_widget.dart';
+
 AttendanceController attendanceController = Get.put(AttendanceController());
 class AttendanceBodyScreen extends StatefulWidget {
 
@@ -21,100 +23,115 @@ class _AttendanceBodyScreenState extends State<AttendanceBodyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Obx(() => attendanceController.isLoading.value == false?
-        Column(
-        children: [
-          Padding(
-            padding: kDefaultPadding,
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: IconButton(
-                  onPressed: () {
-                    Get.toNamed(AttendanceDataScreen.routeName);
-                  },
-                  icon: SvgPicture.asset('assets/icons/calender.svg')),
-            ),
-          ),
-          dateTimeShow(),
-          const SizedBox(height: 20),
-          GestureDetector(
-            onTap: () async {
-              if (isInRange.value == true) {
-                var location = Location();
-                bool enabled = await location.serviceEnabled();
-                print('==============> LOCATION $enabled');
-                if(enabled == false){
-                  isInRange.value = false;
-                  customSnackBar("Location", "Your Location is off");
-                }else{
-                  attendanceController.getAttendance();
-                }
-              }
-            },
-            child: Container(
-              width: 172,
-              height: 172,
-              decoration: BoxDecoration(
-                color: isInRange.value == true ? null : ColorResources.COLOR_GREY,
-                gradient: isInRange.value == true
-                    ? attendanceController.getAttendanceModel != null
-                    ? attendanceController.getAttendanceModel!.data.outtime != null
-                    ? ColorResources.kGradient
-                    : ColorResources.kGradient2
-                    : ColorResources.kGradient2
-                    : null,
-                shape: BoxShape.circle,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  attendanceController.isLoading.value == true
-                      ? const CircularProgressIndicator(color: Colors.white)
-                      : isInRange.value
-                      ? attendanceController.getAttendanceModel != null
-                      ? attendanceController.getAttendanceModel!.data.outtime != null
-                      ? SvgPicture.asset(
-                    'assets/icons/checkout.svg',
-                    color: Colors.white,
-                    width: 70,
-                    height: 70,
-                  )
-                      : SvgPicture.asset(
-                    'assets/icons/attendance_click.svg',
-                    color: Colors.white,
-                    width: 70,
-                    height: 70,
-                  ): SvgPicture.asset(
-                    'assets/icons/attendance_click.svg',
-                    color: Colors.white,
-                    width: 70,
-                    height: 70,
-                  ):const Icon(Icons.location_off_outlined,color: Colors.white,size: 70,),
-                  const SizedBox(height: 10),
-                  Text(
-                    isInRange.value
-                        ? attendanceController.getAttendanceModel != null
-                        ?  attendanceController.getAttendanceModel!.data.outtime != null
-                        ? 'Check Out'
-                        : 'Check In'
-                        : 'Check In'
-                        : 'Out of Range',
-                    style: const TextStyle(color: Colors.white),
+    return ConnectivityWidget(
+        showOfflineBanner: false,
+        builder: (context, isOnline) {
+          return isOnline?
+          Center(
+            child: Obx(() => attendanceController.isLoading.value == false?
+            Column(
+              children: [
+                Padding(
+                  padding: kDefaultPadding,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                        onPressed: () {
+                          Get.toNamed(AttendanceDataScreen.routeName);
+                        },
+                        icon: SvgPicture.asset('assets/icons/calender.svg')),
                   ),
-                ],
-              ),
+                ),
+                dateTimeShow(),
+                const SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () async {
+                    if (isInRange.value == true) {
+                      var location = Location();
+                      bool enabled = await location.serviceEnabled();
+                      print('==============> LOCATION $enabled');
+                      if(enabled == false){
+                        isInRange.value = false;
+                        customSnackBar("Location", "Your Location is off");
+                      }else{
+                        attendanceController.getAttendance();
+                      }
+                    }
+                  },
+                  child: Container(
+                    width: 172,
+                    height: 172,
+                    decoration: BoxDecoration(
+                      color: isInRange.value == true ? null : ColorResources.COLOR_GREY,
+                      gradient: isInRange.value == true
+                          ? attendanceController.getAttendanceModel != null
+                          ? attendanceController.getAttendanceModel!.data.outtime != null
+                          ? ColorResources.kGradient
+                          : ColorResources.kGradient2
+                          : ColorResources.kGradient2
+                          : null,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        attendanceController.isLoading.value == true
+                            ? const CircularProgressIndicator(color: Colors.white)
+                            : isInRange.value
+                            ? attendanceController.getAttendanceModel != null
+                            ? attendanceController.getAttendanceModel!.data.outtime != null
+                            ? SvgPicture.asset(
+                          'assets/icons/checkout.svg',
+                          color: Colors.white,
+                          width: 70,
+                          height: 70,
+                        )
+                            : SvgPicture.asset(
+                          'assets/icons/attendance_click.svg',
+                          color: Colors.white,
+                          width: 70,
+                          height: 70,
+                        ): SvgPicture.asset(
+                          'assets/icons/attendance_click.svg',
+                          color: Colors.white,
+                          width: 70,
+                          height: 70,
+                        ):const Icon(Icons.location_off_outlined,color: Colors.white,size: 70,),
+                        const SizedBox(height: 10),
+                        Text(
+                          isInRange.value
+                              ? attendanceController.getAttendanceModel != null
+                              ?  attendanceController.getAttendanceModel!.data.outtime != null
+                              ? 'Check Out'
+                              : 'Check In'
+                              : 'Check In'
+                              : 'Out of Range',
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                inRangeText(isInRange.value),
+                const Expanded(child: SizedBox(height: 20)),
+                attendanceController.isLoading.value == false
+                    ?const attendanceInfo()
+                    :const CircularProgressIndicator(color: kPrimaryColor,),
+                const SizedBox(height: 70),
+              ],
+            ):const AttendanceShimmer(),),
+          ):Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Icon(Icons.wifi_off,size: 120,color: kPrimaryColor,),
+                SizedBox(height: 5,),
+                Text("No Internet Connection Found!"),
+              ],
             ),
-          ),
-          const SizedBox(height: 20),
-          inRangeText(isInRange.value),
-          const Expanded(child: SizedBox(height: 20)),
-          attendanceController.isLoading.value == false
-              ?const attendanceInfo()
-              :const CircularProgressIndicator(color: kPrimaryColor,),
-          const SizedBox(height: 70),
-        ],
-      ):const AttendanceShimmer(),),
+          );;
+        }
     );
   }
 }

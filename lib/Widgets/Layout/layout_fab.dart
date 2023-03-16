@@ -31,14 +31,13 @@ class LayoutFAB extends StatelessWidget {
           isInRange.value = false;
         }
       });
-    ;
   }
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-        start();
+        //start();
         Get.toNamed(AttendanceScreen.routeName);
       }, //Navigate.to(context, AttendanceScreen.id),
       child: SvgPicture.asset('assets/icons/time.svg'),
