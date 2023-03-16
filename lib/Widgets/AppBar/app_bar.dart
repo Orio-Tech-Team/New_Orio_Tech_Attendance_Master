@@ -116,7 +116,7 @@ class BuildAppBar extends StatelessWidget with PreferredSizeWidget {
                               children: [
                                 Expanded(
                                   flex: 1,
-                                  child: OuluttlineButton(
+                                  child: OutlineButton(
                                       child: const Text("cancel"),
                                       onPressed: () {
                                         Navigator.of(context).pop();
