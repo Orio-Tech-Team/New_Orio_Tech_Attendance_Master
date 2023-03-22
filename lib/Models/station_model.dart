@@ -113,8 +113,8 @@ class Station {
   });
 
   int id;
-  DateTime createdAt;
-  DateTime updatedAt;
+  String createdAt;
+  String updatedAt;
   String stationCode;
   String stationName;
   String latitude;
@@ -124,8 +124,8 @@ class Station {
 
   factory Station.fromJson(Map<String, dynamic> json) => Station(
     id: json["id"],
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
+    createdAt: json["created_at"]??"",
+    updatedAt: json["updated_at"]??"",
     stationCode: json["station_code"],
     stationName: json["station_name"],
     latitude: json["latitude"],
@@ -136,8 +136,8 @@ class Station {
 
   Map<String, dynamic> toJson() => {
     "id": id,
-    "created_at": createdAt.toIso8601String(),
-    "updated_at": updatedAt.toIso8601String(),
+    "created_at": createdAt,
+    "updated_at": updatedAt,
     "station_code": stationCode,
     "station_name": stationName,
     "latitude": latitude,

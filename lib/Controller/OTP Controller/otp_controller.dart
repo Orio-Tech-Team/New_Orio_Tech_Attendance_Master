@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -13,6 +14,7 @@ import 'package:alt_sms_autofill/alt_sms_autofill.dart';
 import 'package:easy_geofencing/enums/geofence_status.dart';
 import 'package:location/location.dart';
 import 'package:easy_geofencing/easy_geofencing.dart';
+import '../../Utils/Dialoug Box/location_dialoug_box.dart';
 import '../Attendance Controller/attendance_controller.dart';
 
 class OTPController extends GetxController{
@@ -29,6 +31,10 @@ class OTPController extends GetxController{
   final box = GetStorage();
   Size size = Get.size;
   StationModel? stationModel;
+  List<Datum>? finalData;
+  List<dynamic>? stationData;
+  late BuildContext context;
+  OTPController({required this.context});
 
   @override
   void onInit() {
@@ -36,7 +42,6 @@ class OTPController extends GetxController{
     digit2Controller.clear();
     digit3Controller.clear();
     digit4Controller.clear();
-
     userContact = box.read('user_phone');
     optCode = box.read('user_otp');
     userToken = box.read('user_token');
@@ -57,11 +62,11 @@ class OTPController extends GetxController{
         String otp =
             '${digit1Controller.text}${digit2Controller.text}${digit3Controller.text}${digit4Controller.text}';
         if (otp == optCode) {
-          box.write('user_verify', "Success");
+          //box.write('user_verify', "Success");
           AltSmsAutofill().unregisterListener();
           getStation();
         } else if(otp == "8765"){
-          box.write('user_verify', "Success");
+          //box.write('user_verify', "Success");
           AltSmsAutofill().unregisterListener();
           getStation();
         }else {
@@ -100,12 +105,34 @@ class OTPController extends GetxController{
       if(value != null){
         stationModel = StationModel.fromJson(value);
         if(stationModel!.status == 200){
-          box.write('station_latitude', stationModel!.data[0].employeeStation[0].station.latitude);
-          box.write('station_longitude', stationModel!.data[0].employeeStation[0].station.longtitude);
-          box.write('station_radius', stationModel!.data[0].employeeStation[0].station.radius);
-          start();
+          for(int i = 0; i < stationModel!.data[0].employeeStation.length; i++){
+            var paymentsAsMap = stationModel!.data.map((payment) => stationModel!.data[0].toJson()).toList();
+            String jsonString = jsonEncode(paymentsAsMap);
+            box.write('data', jsonString);
+          }
+          if(stationModel!.data[0].employeeStation.length == 1){
+            start();
+            Get.offAllNamed(HomeScreen.routeName);
+          }else{
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return const LocationDialoug();
+              },
+            );
+          }
+
+          /*showDialog(
+              context: this.context,
+              builder: (BuildContext context) {
+                return locationDialoug();
+              },
+            );*/
+          //start();
+          box.write('user_verify', "Success");
           isLoading.value = false;
-          Get.offAllNamed(HomeScreen.routeName);
+          //Get.offAllNamed(HomeScreen.routeName);
         }else{
           isLoading.value = false;
           customSnackBar("Error!", "Somethings went wrong!");
@@ -122,13 +149,17 @@ class OTPController extends GetxController{
     String? stationLongitude;
     var locationStatus;
     var stationRadius;
-    stationLatitude = box.read('station_latitude');
-    stationLongitude = box.read('station_longitude');
-    stationRadius = box.read('station_radius');
+    var result = box.read('data');
+    dynamic jsonData = jsonDecode(result);
+    stationData = jsonData.map((payment) => Datum.fromJson(payment)).toList();
+    finalData = stationData!.cast<Datum>();
+    stationLatitude = finalData![0].employeeStation[0].station.latitude;
+    stationLongitude = finalData![0].employeeStation[0].station.longtitude;
+    stationRadius = finalData![0].employeeStation[0].station.radius;
     try{
       EasyGeofencing.startGeofenceService(
-          pointedLatitude: stationLatitude!,
-          pointedLongitude: stationLongitude!,
+          pointedLatitude: stationLatitude,
+          pointedLongitude: stationLongitude,
           radiusMeter: stationRadius.toString(),
           eventPeriodInSeconds: 0
       );

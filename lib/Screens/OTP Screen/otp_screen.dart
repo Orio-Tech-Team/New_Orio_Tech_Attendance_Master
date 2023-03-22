@@ -20,7 +20,7 @@ class OTPScreen extends StatelessWidget {
   }
 }
 Widget otpBody(BuildContext context){
-  OTPController otpController = Get.put(OTPController());
+  OTPController otpController = Get.put(OTPController(context: context));
   return SingleChildScrollView(
     child: GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),

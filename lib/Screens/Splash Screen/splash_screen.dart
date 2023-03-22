@@ -13,7 +13,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return GetBuilder(
-        init: SplashController(),
+        init: SplashController(context: context),
         builder: (_) => Scaffold(
           backgroundColor: ColorResources.PRIMARY_COLOR,
           body: Center(
