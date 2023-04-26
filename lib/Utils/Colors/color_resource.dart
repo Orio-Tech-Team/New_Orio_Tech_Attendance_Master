@@ -17,10 +17,12 @@ class ColorResources {
   static const Color COLOR_GREY_BUNKER = Color(0xff25282B);
   static const Color COLOR_GREY_CHATEAU = Color(0xffA0A4A8);
   static const Color BORDER_COLOR = Color(0xFFDCDCDC);
+
   //static const Color DISABLE_COLOR = Color(0xFF979797);
   static Color getGreyColor(BuildContext context) {
     return Color(0xFFA0A4A8);
   }
+
   static const kGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment(0.8, 1),
@@ -54,6 +56,7 @@ class ColorResources {
     900: Color(0xff192D6B),
   };
 }
+
 const kPrimaryColor = MaterialColor(
   0xFFEE2A54,
   <int, Color>{

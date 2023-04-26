@@ -6,15 +6,16 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import '../../Utils/Dialoug Box/custom_dialoug_box.dart';
 
-
 class NetworkManager extends GetxController {
   int connectionType = 0;
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription _streamSubscription;
+
   @override
   void onInit() {
     getConnectionType();
-    _streamSubscription = _connectivity.onConnectivityChanged.listen(_updateState);
+    _streamSubscription =
+        _connectivity.onConnectivityChanged.listen(_updateState);
     super.onInit();
   }
 

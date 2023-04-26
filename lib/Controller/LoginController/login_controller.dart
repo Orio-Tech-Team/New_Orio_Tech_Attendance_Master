@@ -10,7 +10,7 @@ import '../../Utils/Snack Bar/custom_snack_bar.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:get_storage/get_storage.dart';
 
-class LoginController extends NetworkManager{
+class LoginController extends NetworkManager {
   final TextEditingController idController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   RxBool isLoading = false.obs;
@@ -38,30 +38,33 @@ class LoginController extends NetworkManager{
       };
       if (idController.text != '') {
         isLoading.value = true;
-        Network.postApi(null, AUTH_URL, data).then((value) {
-          if(value != null){
-            if(value['message'][0] != "Invalid Username"){
-              loginModel = LoginModel.fromJson(value);
-              if (loginModel!.status == 200) {
-                box.write('user_name', loginModel!.data.name);
-                box.write('user_phone', loginModel!.data.phone);
-                box.write('user_token', loginModel!.data.token);
-                box.write('user_otp', loginModel!.data.otp);
-                box.write('user_id', idController.text);
-                idController.text = '';
-                Get.toNamed(OTPScreen.routeName,);
-                isLoading.value = false;
-                loginModel = null;
+        Network.postApi(null, AUTH_URL, data).then(
+          (value) {
+            if (value != null) {
+              if (value['message'][0] != "Invalid Username") {
+                loginModel = LoginModel.fromJson(value);
+                if (loginModel!.status == 200) {
+                  box.write('user_name', loginModel!.data.name);
+                  box.write('user_phone', loginModel!.data.phone);
+                  box.write('user_token', loginModel!.data.token);
+                  box.write('user_otp', loginModel!.data.otp);
+                  box.write('user_id', idController.text);
+                  idController.text = '';
+                  Get.toNamed(
+                    OTPScreen.routeName,
+                  );
+                  isLoading.value = false;
+                  loginModel = null;
+                } else {
+                  customSnackBar("Login Failed!!", loginModel!.message[0]);
+                  isLoading.value = false;
+                }
               } else {
-                customSnackBar("Login Failed!!",loginModel!.message[0]);
                 isLoading.value = false;
+                customSnackBar("Error", 'Incorrect User I\'d');
               }
-            }else{
+            } else {
               isLoading.value = false;
-              customSnackBar("Error",'Incorrect User I\'d');
-            }
-          }else{
-            isLoading.value = false;
             }
           },
         );

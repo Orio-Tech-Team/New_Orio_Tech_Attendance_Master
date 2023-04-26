@@ -26,8 +26,7 @@ class DeskBodyScreen extends StatelessWidget {
   }
 }
 
-
-Widget requestAttendanceGrid(){
+Widget requestAttendanceGrid() {
   return GridView.builder(
       shrinkWrap: true,
       physics: const ScrollPhysics(),
@@ -42,11 +41,11 @@ Widget requestAttendanceGrid(){
             img: 'assets/icons/request_icon.svg',
             title: 'Request Now',
             route: '',
-            onPressed: (){
+            onPressed: () {
               Get.toNamed(RequestAttendanceScreen.routeName);
-            }, isDisabled: false,
+            },
+            isDisabled: false,
           ),
         );
-      }
-  );
+      });
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -9,12 +11,18 @@ import 'package:orio_tech_attendance_app/Utils/Constant/text_context.dart';
 import '../../Models/station_model.dart';
 import '../../Utils/Dialoug Box/custom_dialoug_box.dart';
 import 'package:easy_geofencing/enums/geofence_status.dart';
-import 'package:easy_geofencing/easy_geofencing.dart';
 import 'package:location/location.dart';
+
 StreamSubscription<GeofenceStatus>? geofenceStatusStream;
 RxBool isInRange = false.obs;
-class AttendanceController extends GetxController{
+var currentLattitude;
+var currentLongitude;
+var currentRadius;
+RxBool currentRange = false.obs;
+
+class AttendanceController extends GetxController {
   RxBool isRoute = false.obs;
+
   //RxBool isInRange = false.obs;
   RxBool isLoading = false.obs;
   RxBool isCallOnce = false.obs;
@@ -33,7 +41,6 @@ class AttendanceController extends GetxController{
   GetEmployeeAttendanceModel? getEmployeeAttendanceModel;
   StationModel? stationModel;
 
-
   @override
   void onInit() {
     checkLocation();
@@ -45,53 +52,51 @@ class AttendanceController extends GetxController{
     super.onInit();
   }
 
-  checkLocation()async{
+  checkLocation() async {
     var location = Location();
     bool enabled = await location.serviceEnabled();
-    if(enabled == false){
+    if (enabled == false) {
       isInRange.value = false;
     }
   }
-  void getAttendance(){
+
+  void getAttendance() {
     isLoading.value = true;
     Network.getApi(userToken, ATTENDANCE_URL).then((value) {
-      if(value != null){
+      if (value != null) {
         getAttendanceModel = GetAttendanceModel.fromJson(value);
-        if(getAttendanceModel!.status == 200){
+        if (getAttendanceModel!.status == 200) {
           getEmployeeAttendance();
-        }else{
+        } else {
           isLoading.value = false;
-          customSnackBar("Error",'Somethimg went wrong!');
+          customSnackBar("Error", 'Something went wrong!');
         }
-      }else{
+      } else {
         isLoading.value = false;
-        customSnackBar("Network Error",'No Internet not found!');
+        customSnackBar("Network Error", 'No Internet not found!');
       }
-
     });
   }
-  
-   getEmployeeAttendance(){
+
+  getEmployeeAttendance() {
     isLoading.value = true;
     Network.getApi(userToken, EMPLOYEE_ATTENDANCE_URL).then((value) {
-      if(value != null){
-        if(value['data']['id'] != null){
+      if (value != null) {
+        if (value['data']['id'] != null) {
           getAttendanceModel = GetAttendanceModel.fromJson(value);
-          if(getAttendanceModel!.status == 200){
+          if (getAttendanceModel!.status == 200) {
             isLoading.value = false;
-          }else{
-            customSnackBar("Error",'Something went wrong!');
+          } else {
+            customSnackBar("Error", 'Something went wrong!');
             isLoading.value = false;
           }
-        }else{
+        } else {
           isLoading.value = false;
         }
-      }else{
+      } else {
         isLoading.value = false;
-        customSnackBar("Network Error",'No Internet found!');
+        customSnackBar("Network Error", 'No Internet found!');
       }
-
-
     });
   }
 }

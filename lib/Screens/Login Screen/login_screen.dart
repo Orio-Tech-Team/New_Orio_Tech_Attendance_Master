@@ -9,8 +9,10 @@ import '../../Widgets/TextField/transparent_text_field.dart';
 
 class LoginScreen extends StatelessWidget {
   static const String routeName = '/login';
+
   LoginScreen({Key? key}) : super(key: key);
   DateTime? currentBackPressTime;
+
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
     if (currentBackPressTime == null ||
@@ -23,13 +25,13 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       body: loginBody(),
     );
   }
 }
 
-Widget loginBody(){
+Widget loginBody() {
   LoginController loginController = Get.put(LoginController());
   return Container(
     constraints: const BoxConstraints.expand(),
@@ -71,12 +73,13 @@ Widget loginBody(){
           ),
           const SizedBox(height: 20),
           Obx(() {
-            if(loginController.isLoading.value == true){
-              return const CircularProgressIndicator(color: kPrimaryColor,);
-            }else{
+            if (loginController.isLoading.value == true) {
+              return const CircularProgressIndicator(
+                color: kPrimaryColor,
+              );
+            } else {
               return Button(
-                child:
-                const Text('Login', style: TextStyle(fontSize: 18)),
+                child: const Text('Login', style: TextStyle(fontSize: 18)),
                 onPressed: () => loginController.onSubmit(),
               );
             }

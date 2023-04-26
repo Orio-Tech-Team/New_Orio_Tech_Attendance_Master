@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
@@ -5,9 +7,9 @@ import 'package:get_storage/get_storage.dart';
 import 'package:easy_geofencing/easy_geofencing.dart';
 import 'package:easy_geofencing/enums/geofence_status.dart';
 import 'package:location/location.dart';
-
 import '../Attendance Controller/attendance_controller.dart';
-class HomeController extends GetxController{
+
+class HomeController extends GetxController {
   RxString greeting = 'Good Morning'.obs;
   final box = GetStorage();
   String? userName;
@@ -25,9 +27,9 @@ class HomeController extends GetxController{
     stationRadius = box.read('station_radius');
     userName = box.read('user_name');
     setGreeting();
-    //determinePosition();
     super.onInit();
   }
+
   void setGreeting() async {
     final now = DateTime.now();
     final hour = now.hour;
@@ -39,40 +41,6 @@ class HomeController extends GetxController{
       greeting = 'Good Evening'.obs;
     } else {
       greeting = 'Good Night'.obs;
-    }
-  }
-
-  start() async {
-    try{
-      EasyGeofencing.startGeofenceService(
-          pointedLatitude: stationLatitude!,
-          pointedLongitude: stationLongitude!,
-          radiusMeter: stationRadius.toString(),
-          eventPeriodInSeconds: 0
-      );
-      geofenceStatusStream ??= EasyGeofencing.getGeofenceStream()!
-            .listen((GeofenceStatus status) async{
-        var location = Location();
-        bool enabled = await location.serviceEnabled();
-        if(enabled == true){
-          try{
-            locationStatus = status.toString();
-            if(locationStatus == "GeofenceStatus.enter"){
-              isInRange.value = true;
-            }else if(locationStatus == "GeofenceStatus.init"){
-              isInRange.value = false;
-            }else{
-              isInRange.value = false;
-            }
-          }catch(e){
-            isInRange.value = false;
-          }
-        }else{
-          isInRange.value = false;
-          }
-        });
-    }catch(e){
-      isInRange.value = false;
     }
   }
 

@@ -33,11 +33,11 @@ class MyDropdown extends StatelessWidget {
       items: items
           .map(
             (item) => DropdownMenuItem<String>(
-            value: item,
-            child: Text(
-              item,
-            )),
-      )
+                value: item,
+                child: Text(
+                  item,
+                )),
+          )
           .toList(),
       value: selected,
       onChanged: onChange,

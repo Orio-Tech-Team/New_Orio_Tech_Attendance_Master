@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
-class RequestAttendanceController extends GetxController{
+class RequestAttendanceController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   DateTime date = DateTime.now();
   String type = 'CheckIn';
@@ -11,8 +11,6 @@ class RequestAttendanceController extends GetxController{
     final form = formKey.currentState;
     if (form!.validate()) {
       form.save();
-    } else {
-      print('error');
-    }
+    } else {}
   }
 }

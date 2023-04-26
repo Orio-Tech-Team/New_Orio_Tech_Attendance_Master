@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:orio_tech_attendance_app/Controller/SplashController/splash_controller.dart';
 import 'package:orio_tech_attendance_app/Screens/Login%20Screen/login_screen.dart';
 import 'package:orio_tech_attendance_app/Utils/Colors/color_resource.dart';
 import '../../Utils/Constant/text_context.dart';
@@ -8,6 +9,7 @@ import 'package:get/get.dart';
 
 import '../Button/button.dart';
 import '../Button/outline_button.dart';
+
 class BuildAppBar extends StatelessWidget with PreferredSizeWidget {
   const BuildAppBar({
     Key? key,
@@ -18,10 +20,10 @@ class BuildAppBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-
     void onLogout() async {
       await GetStorage.init();
       await GetStorage().erase();
+      positionStreamSubscription.cancel();
       Get.offAllNamed(LoginScreen.routeName);
     }
 
@@ -66,7 +68,7 @@ class BuildAppBar extends StatelessWidget with PreferredSizeWidget {
                 focusColor: Colors.transparent,
                 hoverColor: Colors.transparent,
                 highlightColor: Colors.transparent,
-                onTap: ()=> showDialog(
+                onTap: () => showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
@@ -128,11 +130,7 @@ class BuildAppBar extends StatelessWidget with PreferredSizeWidget {
                                 Expanded(
                                   flex: 1,
                                   child: Button(
-                                      onPressed: ()async{
-                                        await GetStorage.init();
-                                        await GetStorage().erase();
-                                        Get.offAllNamed(LoginScreen.routeName);
-                                      },
+                                      onPressed: onLogout,
                                       child: const Text("Logout")),
                                 )
                               ],

@@ -39,9 +39,9 @@ class _DateSelectorState extends State<DateSelector> {
                   firstDate: DateTime(2022),
                   lastDate: DateTime.now(),
                 );
-                if(widget.name == "From Date"){
+                if (widget.name == "From Date") {
                   attendanceDataController.fromDate = newDate!;
-                }else{
+                } else {
                   attendanceDataController.toDate = newDate!;
                 }
 
@@ -51,7 +51,6 @@ class _DateSelectorState extends State<DateSelector> {
                     widget.date = newDate;
                     widget.onChange = newDate;
                   });
-
                 }
               },
               child: Container(

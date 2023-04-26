@@ -6,8 +6,10 @@ const SECOND_URL = 'http://orio.digital:5003/';
 const AUTH_URL = 'http://orio.digital:5001/auth/login/app';
 const STATION_URL = 'attendance-app/employee/app';
 const ATTENDANCE_URL = 'attendance-app/attendance/app';
-const EMPLOYEE_ATTENDANCE_URL = 'attendance-app/attendance/get_employee_attendance';
-const POST_ATTENDANCE_DATA = 'http://orio.digital:5003/attendance-app/attendance/get-attendance-data/app';
+const EMPLOYEE_ATTENDANCE_URL =
+    'attendance-app/attendance/get_employee_attendance';
+const POST_ATTENDANCE_DATA =
+    'http://orio.digital:5003/attendance-app/attendance/get-attendance-data/app';
 const USER_NAME = 'user_name';
 const USER_PHONE = 'user_phone';
 const USER_TOKEN = 'user_token';

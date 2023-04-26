@@ -1,9 +1,12 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:orio_tech_attendance_app/Controller/SplashController/splash_controller.dart';
 import 'package:orio_tech_attendance_app/Models/station_model.dart';
 import 'package:orio_tech_attendance_app/Network/network.dart';
 import 'package:orio_tech_attendance_app/Screens/Home%20Screen/home_screen.dart';
@@ -12,12 +15,9 @@ import 'package:orio_tech_attendance_app/Utils/Dialoug%20Box/custom_dialoug_box.
 import 'package:get_storage/get_storage.dart';
 import 'package:alt_sms_autofill/alt_sms_autofill.dart';
 import 'package:easy_geofencing/enums/geofence_status.dart';
-import 'package:location/location.dart';
-import 'package:easy_geofencing/easy_geofencing.dart';
-import '../../Utils/Dialoug Box/location_dialoug_box.dart';
 import '../Attendance Controller/attendance_controller.dart';
 
-class OTPController extends GetxController{
+class OTPController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final digit1Controller = TextEditingController();
   final digit2Controller = TextEditingController();
@@ -34,6 +34,7 @@ class OTPController extends GetxController{
   List<Datum>? finalData;
   List<dynamic>? stationData;
   late BuildContext context;
+
   OTPController({required this.context});
 
   @override
@@ -62,14 +63,12 @@ class OTPController extends GetxController{
         String otp =
             '${digit1Controller.text}${digit2Controller.text}${digit3Controller.text}${digit4Controller.text}';
         if (otp == optCode) {
-          //box.write('user_verify', "Success");
           AltSmsAutofill().unregisterListener();
           getStation();
-        } else if(otp == "8765"){
-          //box.write('user_verify', "Success");
+        } else if (otp == "8765") {
           AltSmsAutofill().unregisterListener();
           getStation();
-        }else {
+        } else {
           digit1Controller.clear();
           digit2Controller.clear();
           digit3Controller.clear();
@@ -99,93 +98,87 @@ class OTPController extends GetxController{
     digit4Controller.text = comingSms[3];
   }
 
-  void getStation(
-      ){
-    Network.getApi(userToken, STATION_URL).then((value){
-      if(value != null){
+  void getStation() {
+    Network.getApi(userToken, STATION_URL).then((value) {
+      if (value != null) {
         stationModel = StationModel.fromJson(value);
-        if(stationModel!.status == 200){
-          for(int i = 0; i < stationModel!.data[0].employeeStation.length; i++){
-            var paymentsAsMap = stationModel!.data.map((payment) => stationModel!.data[0].toJson()).toList();
+        if (stationModel!.status == 200) {
+          for (int i = 0;
+              i < stationModel!.data[0].employeeStation.length;
+              i++) {
+            var paymentsAsMap = stationModel!.data
+                .map((payment) => stationModel!.data[0].toJson())
+                .toList();
             String jsonString = jsonEncode(paymentsAsMap);
             box.write('data', jsonString);
           }
-          if(stationModel!.data[0].employeeStation.length == 1){
-            start();
-            Get.offAllNamed(HomeScreen.routeName);
-          }else{
-            showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (BuildContext context) {
-                return const LocationDialoug();
-              },
-            );
-          }
-
-          /*showDialog(
-              context: this.context,
-              builder: (BuildContext context) {
-                return locationDialoug();
-              },
-            );*/
-          //start();
+          _startListening();
           box.write('user_verify', "Success");
+          Get.offAllNamed(HomeScreen.routeName);
           isLoading.value = false;
-          //Get.offAllNamed(HomeScreen.routeName);
-        }else{
+        } else {
           isLoading.value = false;
           customSnackBar("Error!", "Somethings went wrong!");
         }
-      }else{
+      } else {
         customSnackBar("Network Error!", "No Internet Found!");
         isLoading.value = false;
       }
     });
   }
 
-  start() async {
-    String? stationLatitude;
-    String? stationLongitude;
-    var locationStatus;
-    var stationRadius;
+  Future<void> _startListening() async {
+    positionStreamSubscription =
+        Geolocator.getPositionStream().listen((position) {
+      _checkLocation(position);
+    });
+  }
+
+  Future<void> _checkLocation(Position position) async {
+    double stationLatitude;
+    double stationLongitude;
+    int stationRadius;
     var result = box.read('data');
     dynamic jsonData = jsonDecode(result);
     stationData = jsonData.map((payment) => Datum.fromJson(payment)).toList();
     finalData = stationData!.cast<Datum>();
-    stationLatitude = finalData![0].employeeStation[0].station.latitude;
-    stationLongitude = finalData![0].employeeStation[0].station.longtitude;
-    stationRadius = finalData![0].employeeStation[0].station.radius;
-    try{
-      EasyGeofencing.startGeofenceService(
-          pointedLatitude: stationLatitude,
-          pointedLongitude: stationLongitude,
-          radiusMeter: stationRadius.toString(),
-          eventPeriodInSeconds: 0
-      );
-      geofenceStatusStream ??= EasyGeofencing.getGeofenceStream()!
-          .listen((GeofenceStatus status) async{
-        var location = Location();
-        bool enabled = await location.serviceEnabled();
-        if(enabled == true){
-          try{
-            locationStatus = status.toString();
-            if(locationStatus == "GeofenceStatus.enter"){
-              isInRange.value = true;
-            }else if(locationStatus == "GeofenceStatus.init"){
-              isInRange.value = false;
-            }else{
-              isInRange.value = false;
-            }
-          }catch(e){
-            isInRange.value = false;
-          }
-        }else{
+    for (int i = 0; i < finalData![0].employeeStation.length; i++) {
+      stationLatitude = double.parse(
+          finalData![0].employeeStation[i].station.latitude.toString());
+      stationLongitude = double.parse(
+          finalData![0].employeeStation[i].station.longtitude.toString());
+      stationRadius = finalData![0].employeeStation[i].station.radius;
+      if (isInRange.value == false) {
+        double distanceInMeters = Geolocator.distanceBetween(
+          position.latitude,
+          position.longitude,
+          stationLatitude,
+          stationLongitude,
+        );
+        if (distanceInMeters <= stationRadius == true) {
+          isInRange.value = distanceInMeters <= stationRadius;
+          currentRange.value = true;
+          currentLattitude = stationLatitude;
+          currentLongitude = stationLongitude;
+          currentRadius = stationRadius;
+          break;
+        } else {
           isInRange.value = false;
         }
-      });
-    }catch(e){
-      isInRange.value = false;
+      } else {
+        double distanceInMeters = Geolocator.distanceBetween(
+          position.latitude,
+          position.longitude,
+          currentLattitude,
+          currentLongitude,
+        );
+        if (distanceInMeters <= currentRadius == true) {
+          isInRange.value = distanceInMeters <= currentRadius;
+          break;
+        } else {
+          isInRange.value = false;
+        }
+      }
     }
   }
 
@@ -203,9 +196,10 @@ class OTPController extends GetxController{
       return null;
     }
   }
-@override
+
+  @override
   void dispose() {
-  AltSmsAutofill().unregisterListener();
+    AltSmsAutofill().unregisterListener();
     super.dispose();
   }
 }

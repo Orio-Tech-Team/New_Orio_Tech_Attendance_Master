@@ -22,7 +22,10 @@ class NavigationButton extends StatelessWidget {
   Widget build(BuildContext context) {
     Color color = currentTab == tab
         ? ColorResources.PRIMARY_COLOR
-        : (isDisabled ? ColorResources.DISABLE_COLOR.withOpacity(0.4) : ColorResources.DISABLE_COLOR).withOpacity(0.4);
+        : (isDisabled
+                ? ColorResources.DISABLE_COLOR.withOpacity(0.4)
+                : ColorResources.DISABLE_COLOR)
+            .withOpacity(0.4);
 
     return MaterialButton(
       minWidth: 40,

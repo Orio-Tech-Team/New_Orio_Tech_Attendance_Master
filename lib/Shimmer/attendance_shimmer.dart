@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_svg/svg.dart';
 import '../Utils/Constant/text_context.dart';
-import '../Utils/Text Style/dimensions.dart';
 
 class AttendanceShimmer extends StatelessWidget {
   const AttendanceShimmer({Key? key}) : super(key: key);
@@ -14,8 +13,7 @@ class AttendanceShimmer extends StatelessWidget {
       baseColor: const Color(0xffA0A4A8),
       highlightColor: const Color(0xFFDCDCDC),
       child: Center(
-        child:
-        Column(
+        child: Column(
           children: [
             Padding(
               padding: kDefaultPadding,
@@ -23,9 +21,11 @@ class AttendanceShimmer extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: IconButton(
                     onPressed: () {
-                      // Get.toNamed(AttendanceDataScreen.routeName);
                     },
-                    icon: SvgPicture.asset('assets/icons/calender.svg',color: Colors.grey.shade300,)),
+                    icon: SvgPicture.asset(
+                      'assets/icons/calender.svg',
+                      color: Colors.grey.shade300,
+                    )),
               ),
             ),
             dateTimeShow(),
@@ -40,7 +40,11 @@ class AttendanceShimmer extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.location_off_outlined,color: Colors.grey.shade100,size: 70,),
+                  Icon(
+                    Icons.location_off_outlined,
+                    color: Colors.grey.shade100,
+                    size: 70,
+                  ),
                   const SizedBox(height: 10),
                   Container(
                     width: 90,
@@ -53,7 +57,7 @@ class AttendanceShimmer extends StatelessWidget {
             const SizedBox(height: 20),
             inRangeText(),
             const Expanded(child: SizedBox(height: 20)),
-            const attendanceInfo(),
+            const AttendanceInfo(),
             const SizedBox(height: 70),
           ],
         ),
@@ -61,8 +65,8 @@ class AttendanceShimmer extends StatelessWidget {
     );
   }
 }
-Widget dateTimeShow(){
-  //AttendanceController attendanceController = Get.put(AttendanceController());
+
+Widget dateTimeShow() {
   return Column(
     children: [
       Container(
@@ -70,7 +74,9 @@ Widget dateTimeShow(){
         height: 20,
         color: Colors.grey.shade100,
       ),
-      const SizedBox(height: 5,),
+      const SizedBox(
+        height: 5,
+      ),
       Container(
         width: 100,
         height: 12,
@@ -79,12 +85,12 @@ Widget dateTimeShow(){
     ],
   );
 }
-Widget inRangeText(){
+
+Widget inRangeText() {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      SvgPicture.asset('assets/icons/map_pin.svg',
-          color:Colors.grey.shade300),
+      SvgPicture.asset('assets/icons/map_pin.svg', color: Colors.grey.shade300),
       const SizedBox(width: 5),
       Container(
         height: 12,
@@ -95,12 +101,11 @@ Widget inRangeText(){
   );
 }
 
-class attendanceInfo extends StatelessWidget {
-  const attendanceInfo({Key? key}) : super(key: key);
+class AttendanceInfo extends StatelessWidget {
+  const AttendanceInfo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return SizedBox(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -114,58 +119,16 @@ class attendanceInfo extends StatelessWidget {
   }
 }
 
-/*Widget attendanceInfo(AttendanceController attendanceController){
-  //AttendanceController attendanceController = Get.put(AttendanceController());
-  return SizedBox(
-    child:Obx(() => Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        checkItem(
-          'assets/icons/check_in.svg',
-          'Check In',
-          attendanceController.getEmployeeAttendanceModel != null
-              ?
-          attendanceController.getEmployeeAttendanceModel!.data.intime.substring(0, 5)
-              :
-          '--:--',
-        ),
-        checkItem(
-          'assets/icons/check_out.svg',
-          'Check Out',
-          attendanceController.getEmployeeAttendanceModel != null
-              ?
-          attendanceController.getEmployeeAttendanceModel!.data.outtime != null
-              ?
-          attendanceController.getEmployeeAttendanceModel!.data.outtime.substring(0, 5)
-              :
-          '--:--'
-              :
-          '--:--',
-        ),
-        checkItem(
-          'assets/icons/hours.svg',
-          'Working Hours',
-          attendanceController.getEmployeeAttendanceModel != null
-              ?
-          attendanceController.getEmployeeAttendanceModel!.data.workingHours != null
-              ?
-          attendanceController.getEmployeeAttendanceModel!.data.workingHours.substring(0, 5)
-              :
-          '--:--'
-              :
-          '--:--',
-        ),
-      ],
-    ),),
-  );
-}*/
 
-Widget checkItem(){
+Widget checkItem() {
   return SizedBox(
     width: 90,
     child: Column(
       children: [
-        SvgPicture.asset('assets/icons/check_in.svg',color: Colors.grey.shade300,),
+        SvgPicture.asset(
+          'assets/icons/check_in.svg',
+          color: Colors.grey.shade300,
+        ),
         const SizedBox(height: 5),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

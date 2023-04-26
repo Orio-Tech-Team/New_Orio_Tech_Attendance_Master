@@ -23,17 +23,21 @@ class Layout extends StatelessWidget {
             backgroundColor: Colors.white,
             appBar: const BuildAppBar(),
             body: body,
-            floatingActionButton: keyboardIsOpened ? null : isOnline?LayoutFAB():FloatingActionButton(
-              onPressed: () {
-              }, //Navigate.to(context, AttendanceScreen.id),
-              child: SvgPicture.asset('assets/icons/time.svg'),
-            ) ,
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            floatingActionButton: keyboardIsOpened
+                ? null
+                : isOnline
+                    ? LayoutFAB()
+                    : FloatingActionButton(
+                        onPressed:
+                            () {}, //Navigate.to(context, AttendanceScreen.id),
+                        child: SvgPicture.asset('assets/icons/time.svg'),
+                      ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
             bottomNavigationBar: LayoutBottomBar(
               currentTab: currentTab,
             ),
           );
-        }
-    );
+        });
   }
 }

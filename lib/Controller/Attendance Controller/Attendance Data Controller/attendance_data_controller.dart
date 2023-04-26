@@ -1,13 +1,14 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:get/get.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:get_storage/get_storage.dart';
-
 import '../../../Models/get_attendance_data.dart';
 import '../../../Network/network.dart';
 import '../../../Utils/Constant/text_context.dart';
 import '../../../Utils/Dialoug Box/custom_dialoug_box.dart';
 
-class AttendanceDataController extends GetxController{
+class AttendanceDataController extends GetxController {
   DateTime fromDate = DateTime.now();
   DateTime toDate = DateTime.now();
   DateTime selectedYear = DateTime.now();
@@ -18,28 +19,26 @@ class AttendanceDataController extends GetxController{
   String? finalToDate;
   final box = GetStorage();
   String? user_id;
-  GetAttendanceData? getAttendanceData ;
+  GetAttendanceData? getAttendanceData;
 
-
-
-  getFromDate(){
-    finalFromDate =
-    fromDate.month < 10
+  getFromDate() {
+    finalFromDate = fromDate.month < 10
         ? fromDate.day < 10
-        ? '${fromDate.year}-0${fromDate.month}-0${fromDate.day}'
-        :'${fromDate.year}-0${fromDate.month}-${fromDate.day}'
+            ? '${fromDate.year}-0${fromDate.month}-0${fromDate.day}'
+            : '${fromDate.year}-0${fromDate.month}-${fromDate.day}'
         : fromDate.day < 10
-        ? '${fromDate.year}-${fromDate.month}-0${fromDate.day}'
-        : '${fromDate.year}-${fromDate.month}-${fromDate.day}';
+            ? '${fromDate.year}-${fromDate.month}-0${fromDate.day}'
+            : '${fromDate.year}-${fromDate.month}-${fromDate.day}';
   }
-  getToDate(){
+
+  getToDate() {
     finalToDate = toDate.month < 10
         ? toDate.day < 10
-        ? '${toDate.year}-0${toDate.month}-0${toDate.day}'
-        :'${toDate.year}-0${toDate.month}-${toDate.day}'
+            ? '${toDate.year}-0${toDate.month}-0${toDate.day}'
+            : '${toDate.year}-0${toDate.month}-${toDate.day}'
         : toDate.day < 10
-        ? '${toDate.year}-${toDate.month}-0${toDate.day}'
-        : '${toDate.year}-${toDate.month}-${toDate.day}';
+            ? '${toDate.year}-${toDate.month}-0${toDate.day}'
+            : '${toDate.year}-${toDate.month}-${toDate.day}';
   }
 
   void onSubmit() async {
@@ -53,27 +52,27 @@ class AttendanceDataController extends GetxController{
       "employee_number": user_id,
     };
 
-    Network.postApi(null, POST_ATTENDANCE_DATA, data).then((value) {
-      if(value != null){
-        getAttendanceData = GetAttendanceData.fromJson(value);
-        if(getAttendanceData!.status == 200){
-          if(getAttendanceData!.data.isNotEmpty){
-            isSuccess.value = true;
-            isLoading.value = false;
-          }else{
-            customSnackBar("Error","No data found in these dates");
+    Network.postApi(null, POST_ATTENDANCE_DATA, data).then(
+      (value) {
+        if (value != null) {
+          getAttendanceData = GetAttendanceData.fromJson(value);
+          if (getAttendanceData!.status == 200) {
+            if (getAttendanceData!.data.isNotEmpty) {
+              isSuccess.value = true;
+              isLoading.value = false;
+            } else {
+              customSnackBar("Error", "No data found in these dates");
+              isLoading.value = false;
+            }
+          } else {
+            customSnackBar("Failed", "Something went wronge");
             isLoading.value = false;
           }
-        }else{
-          customSnackBar("Failed","Something went wronge");
+        } else {
+          customSnackBar("Network Error", "No internet found");
           isLoading.value = false;
         }
-      }else{
-        customSnackBar("Network Error","No internet found");
-        isLoading.value = false;
-      }
-     },
+      },
     );
   }
-
 }

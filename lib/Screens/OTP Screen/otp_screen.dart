@@ -8,18 +8,19 @@ import '../../Widgets/TextField/text_field_box.dart';
 
 class OTPScreen extends StatelessWidget {
   static const String routeName = '/otp-screen';
-  const OTPScreen({Key? key}) : super(key: key);
 
+  const OTPScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  otpAppBar(),
+      appBar: otpAppBar(),
       body: otpBody(context),
     );
   }
 }
-Widget otpBody(BuildContext context){
+
+Widget otpBody(BuildContext context) {
   OTPController otpController = Get.put(OTPController(context: context));
   return SingleChildScrollView(
     child: GestureDetector(
@@ -34,25 +35,24 @@ Widget otpBody(BuildContext context){
               children: [
                 SvgPicture.asset('assets/icons/otp.svg'),
                 const SizedBox(height: 25),
-                 Row(
-                   mainAxisAlignment: MainAxisAlignment.center,
-                   children: [
-                     const Text(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
                       'Code is sent to ',
                       style: TextStyle(
                         color: Color(0xFF6E6E6E),
                       ),
-                     ),
-                     Text(
-                       '${otpController.userContact}',
-                       style: const TextStyle(
-                         color: Colors.black,
-                         fontWeight: FontWeight.bold,
-                         fontSize: 16
-                       ),
-                     ),
-                   ],
-                 ),
+                    ),
+                    Text(
+                      '${otpController.userContact}',
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 44),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -97,13 +97,19 @@ Widget otpBody(BuildContext context){
                   ],
                 ),
                 const SizedBox(height: 20),
-                Obx(() => otpController.isLoading.value == false?SizedBox(
-                  width: 250,
-                  child: Button(
-                    child: const Text('Verify'),
-                    onPressed: () => otpController.onSubmit(),
-                  ),
-                ):const CircularProgressIndicator(color: kPrimaryColor,),),
+                Obx(
+                  () => otpController.isLoading.value == false
+                      ? SizedBox(
+                          width: 250,
+                          child: Button(
+                            child: const Text('Verify'),
+                            onPressed: () => otpController.onSubmit(),
+                          ),
+                        )
+                      : const CircularProgressIndicator(
+                          color: kPrimaryColor,
+                        ),
+                ),
               ],
             ),
           ),
@@ -113,7 +119,7 @@ Widget otpBody(BuildContext context){
   );
 }
 
-PreferredSizeWidget otpAppBar(){
+PreferredSizeWidget otpAppBar() {
   return AppBar(
     backgroundColor: Colors.white,
     elevation: 0,

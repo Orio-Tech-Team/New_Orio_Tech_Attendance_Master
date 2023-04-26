@@ -7,19 +7,19 @@ import 'package:get/get.dart';
 
 class SplashScreen extends StatelessWidget {
   static const String routeName = '/splash';
+
   SplashScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return GetBuilder(
-        init: SplashController(context: context),
-        builder: (_) => Scaffold(
-          backgroundColor: ColorResources.PRIMARY_COLOR,
-          body: Center(
-            child: SvgPicture.asset(SPLASH_LOGO),
-          ),
+      init: SplashController(context: context),
+      builder: (_) => Scaffold(
+        backgroundColor: ColorResources.PRIMARY_COLOR,
+        body: Center(
+          child: SvgPicture.asset(SPLASH_LOGO),
         ),
+      ),
     );
   }
 }

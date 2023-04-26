@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class NotificationBodyScreen extends StatelessWidget {
@@ -22,7 +21,7 @@ class NotificationBodyScreen extends StatelessWidget {
             shrinkWrap: true,
             physics: const ScrollPhysics(),
             itemCount: 3,
-            itemBuilder: (context, index) =>  notificationTile(),
+            itemBuilder: (context, index) => notificationTile(),
           ),
         ]),
       ),
@@ -30,7 +29,7 @@ class NotificationBodyScreen extends StatelessWidget {
   }
 }
 
-Widget notificationBody(){
+Widget notificationBody() {
   return Padding(
     padding: const EdgeInsets.all(20.0),
     child: Center(
@@ -47,14 +46,14 @@ Widget notificationBody(){
           shrinkWrap: true,
           physics: const ScrollPhysics(),
           itemCount: 3,
-          itemBuilder: (context, index) =>  notificationTile(),
+          itemBuilder: (context, index) => notificationTile(),
         ),
       ]),
     ),
   );
 }
 
-Widget notificationTile(){
+Widget notificationTile() {
   return Container(
     padding: const EdgeInsets.all(20.0),
     margin: const EdgeInsets.only(bottom: 12.0),

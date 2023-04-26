@@ -12,15 +12,14 @@ import 'package:orio_tech_attendance_app/Screens/Profile%20Screen/profile_screen
 import 'package:orio_tech_attendance_app/Screens/Splash%20Screen/splash_screen.dart';
 import 'package:orio_tech_attendance_app/Utils/Layout/layout_screen.dart';
 
-
 final List<GetPage<dynamic>> routes = [
   GetPage(
     name: SplashScreen.routeName,
-    page: () =>  SplashScreen(),
+    page: () => SplashScreen(),
   ),
   GetPage(
     name: LoginScreen.routeName,
-    page: () =>  LoginScreen(),
+    page: () => LoginScreen(),
   ),
   GetPage(
     name: OTPScreen.routeName,
@@ -28,7 +27,7 @@ final List<GetPage<dynamic>> routes = [
   ),
   GetPage(
     name: HomeScreen.routeName,
-    page: () =>  HomeScreen(),
+    page: () => HomeScreen(),
   ),
   GetPage(
     name: AttendanceScreen.routeName,
@@ -58,9 +57,9 @@ final List<GetPage<dynamic>> routes = [
 
 class Routes {
   static Map<String, Widget Function(BuildContext)> routes = {
-    SplashScreen.routeName: (context) =>  SplashScreen(),
-    LoginScreen.routeName: (context) =>  LoginScreen(),
-    HomeScreen.routeName: (context) =>  HomeScreen(),
+    SplashScreen.routeName: (context) => SplashScreen(),
+    LoginScreen.routeName: (context) => LoginScreen(),
+    HomeScreen.routeName: (context) => HomeScreen(),
     NotificationScreen.routeName: (context) => const NotificationScreen(),
     AttendanceScreen.routeName: (context) => const AttendanceScreen(),
     AttendanceDataScreen.routeName: (context) => const AttendanceDataScreen(),

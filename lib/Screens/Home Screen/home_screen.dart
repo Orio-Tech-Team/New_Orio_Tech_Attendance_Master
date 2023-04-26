@@ -6,7 +6,8 @@ import 'package:easy_geofencing/enums/geofence_status.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String routeName = '/home';
-   HomeScreen({Key? key}) : super(key: key);
+
+  HomeScreen({Key? key}) : super(key: key);
   static String id = "home_screen";
 
   DateTime? currentBackPressTime;

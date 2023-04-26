@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:orio_tech_attendance_app/Utils/Colors/color_resource.dart';
 import 'package:flutter_svg/svg.dart';
+
 class HomeCard extends StatelessWidget {
   final String img, title, route;
   final VoidCallback onPressed;
@@ -41,7 +42,9 @@ class HomeCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10),
         margin: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
-          color: isDisabled ? ColorResources.DISABLE_COLOR.withOpacity(0.5) : ColorResources.DISABLE_COLOR.withOpacity(0.06),
+          color: isDisabled
+              ? ColorResources.DISABLE_COLOR.withOpacity(0.5)
+              : ColorResources.DISABLE_COLOR.withOpacity(0.06),
           borderRadius: BorderRadius.circular(10),
         ),
         width: 100,
@@ -62,7 +65,9 @@ class HomeCard extends StatelessWidget {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: isDisabled ?  TextStyle(color: ColorResources.PRIMARY_COLOR) : TextStyle(color: ColorResources.PRIMARY_COLOR),
+              style: isDisabled
+                  ? TextStyle(color: ColorResources.PRIMARY_COLOR)
+                  : TextStyle(color: ColorResources.PRIMARY_COLOR),
             ),
           ],
         ),

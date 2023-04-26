@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:orio_tech_attendance_app/Widgets/TextField/my_text_field.dart';
 import 'package:orio_tech_attendance_app/Widgets/TextField/text_field_container.dart';
 
-
 class TextFieldBox extends StatelessWidget {
   final bool autofocus;
   final Function onChange;

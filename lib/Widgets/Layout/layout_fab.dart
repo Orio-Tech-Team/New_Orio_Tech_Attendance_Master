@@ -14,6 +14,7 @@ class LayoutFAB extends StatelessWidget {
   String? stationLongitude;
   var stationRadius;
   final box = GetStorage();
+
   start() async {
     stationLatitude = box.read('station_latitude');
     stationLongitude = box.read('station_longitude');
@@ -23,14 +24,15 @@ class LayoutFAB extends StatelessWidget {
         pointedLongitude: stationLongitude!,
         radiusMeter: stationRadius.toString(),
         eventPeriodInSeconds: 0);
-    geofenceStatusStream ??= EasyGeofencing.getGeofenceStream()!.listen((GeofenceStatus status) {
-        var locationStatus = status.toString();
-        if (locationStatus == "GeofenceStatus.enter") {
-          isInRange.value = true;
-        } else {
-          isInRange.value = false;
-        }
-      });
+    geofenceStatusStream ??=
+        EasyGeofencing.getGeofenceStream()!.listen((GeofenceStatus status) {
+      var locationStatus = status.toString();
+      if (locationStatus == "GeofenceStatus.enter") {
+        isInRange.value = true;
+      } else {
+        isInRange.value = false;
+      }
+    });
   }
 
   @override

@@ -12,7 +12,6 @@ TextStyle kTitleStyle = const TextStyle(
 TextStyle kBodyStyle = const TextStyle(
   color: Colors.black87,
   fontFamily: 'Poppins',
-
   fontSize: 15.0,
 );
 

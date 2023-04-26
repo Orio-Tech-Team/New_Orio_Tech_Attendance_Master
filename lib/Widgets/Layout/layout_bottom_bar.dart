@@ -33,14 +33,16 @@ class _LayoutBottomBarState extends State<LayoutBottomBar> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 NavigationButton(
-                  onPressed: () => Get.toNamed(HomeScreen.routeName),//Navigate.to(context,HomeScreen.routeName),
+                  onPressed: () => Get.toNamed(HomeScreen.routeName),
+                  //Navigate.to(context,HomeScreen.routeName),
                   icon: 'assets/icons/home.svg',
                   text: 'Home',
                   tab: 1,
                   currentTab: widget.currentTab,
                 ),
                 NavigationButton(
-                  onPressed: () {},//=> Navigate.to(context,DeskScreen.routeName),
+                  onPressed: () {},
+                  //=> Navigate.to(context,DeskScreen.routeName),
                   icon: 'assets/icons/hr_bottom.svg',
                   text: 'HR desk',
                   tab: 2,
@@ -53,7 +55,8 @@ class _LayoutBottomBarState extends State<LayoutBottomBar> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 NavigationButton(
-                  onPressed: () => Get.toNamed(NotificationScreen.routeName),//Navigate.to(context,NotificationScreen.routeName),
+                  onPressed: () => Get.toNamed(NotificationScreen.routeName),
+                  //Navigate.to(context,NotificationScreen.routeName),
                   icon: 'assets/icons/notification.svg',
                   text: 'Notification',
                   tab: 3,
@@ -61,7 +64,8 @@ class _LayoutBottomBarState extends State<LayoutBottomBar> {
                   currentTab: widget.currentTab,
                 ),
                 NavigationButton(
-                  onPressed: () {},//=> Navigate.to(context,ProfileScreen.routeName),
+                  onPressed: () {},
+                  //=> Navigate.to(context,ProfileScreen.routeName),
                   icon: 'assets/icons/profile.svg',
                   text: 'Profile',
                   tab: 4,

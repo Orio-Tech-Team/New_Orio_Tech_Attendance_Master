@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:orio_tech_attendance_app/Utils/transition/transition.dart';
 import '../Colors/color_resource.dart';
 
-
 class AppTheme {
   static ThemeData themeData() {
     return ThemeData(
@@ -12,7 +11,7 @@ class AppTheme {
       ),
       scaffoldBackgroundColor: Colors.white,
       fontFamily: 'Ubuntu',
-      pageTransitionsTheme:  const PageTransitionsTheme(
+      pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
           TargetPlatform.android: TransitionsBuilder(),
           TargetPlatform.iOS: TransitionsBuilder(),
