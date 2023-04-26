@@ -7,13 +7,14 @@ import '../Attendance Screen/attendance_screen.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:connectivity_widget/connectivity_widget.dart';
 
-HomeController homeController = Get.put(HomeController());
 
+HomeController? homeController;
 class HomeBodyScreen extends StatelessWidget {
   const HomeBodyScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    homeController = Get.put(HomeController(context: context));
     return ConnectivityWidget(
         showOfflineBanner: false,
         builder: (context, isOnline) {
@@ -88,7 +89,7 @@ Widget _greetings() {
                   ),
                 ),
                 Text(
-                  homeController.userName.toString(),
+                  homeController!.userName.toString(),
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF2F2F7E),
@@ -100,7 +101,7 @@ Widget _greetings() {
             const SizedBox(height: 5),
             Obx(
               () => Text(
-                homeController.greeting.toString(),
+                homeController!.greeting.toString(),
                 style: const TextStyle(
                   color: Color(0xFF6E6E6E),
                 ),

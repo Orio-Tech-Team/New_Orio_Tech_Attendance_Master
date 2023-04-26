@@ -64,7 +64,7 @@ class Datum {
     outtime: json["outtime"],
     type: json["type"],
     attendanceDate: json["attendance_date"],
-    day: json["day"],
+    day: json["day"]??"",
     workingHours: json["working_hours"],
     shift: shiftValues.map[json["shift"]]!,
   );
